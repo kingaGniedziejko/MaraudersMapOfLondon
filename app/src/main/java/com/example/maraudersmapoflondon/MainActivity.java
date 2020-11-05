@@ -1,15 +1,27 @@
 package com.example.maraudersmapoflondon;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.RequiresApi;
+import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 import androidx.fragment.app.FragmentActivity;
+import androidx.fragment.app.FragmentManager;
 
+import android.Manifest;
+import android.annotation.SuppressLint;
 import android.content.Context;
+import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.content.res.Resources;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.graphics.drawable.Drawable;
+import android.location.Location;
+import android.os.Build;
 import android.os.Bundle;
 
+import com.google.android.gms.location.FusedLocationProviderClient;
+import com.google.android.gms.location.LocationServices;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
@@ -18,14 +30,17 @@ import com.google.android.gms.maps.model.BitmapDescriptor;
 import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MapStyleOptions;
+import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.gms.tasks.Task;
 
 import java.util.ArrayList;
-//import 'dart:ui' as ui;
 
 public class MainActivity extends FragmentActivity implements OnMapReadyCallback {
 
-    GoogleMap map;
+    SupportMapFragment supportMapFragment;
+    FusedLocationProviderClient client;
 
     ArrayList<Attraction> attractions = new ArrayList<>();
     Attraction harryPotterShop = new Attraction("The Harry Potter Shop at Platform 9 3/4", new LatLng(51.53218, -0.12392));
@@ -45,10 +60,11 @@ public class MainActivity extends FragmentActivity implements OnMapReadyCallback
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
-                .findFragmentById(R.id.map);
+        supportMapFragment = (SupportMapFragment) getSupportFragmentManager().findFragmentById(R.id.map);
+        client = LocationServices.getFusedLocationProviderClient(this);
 
-        mapFragment.getMapAsync(this);
+
+        supportMapFragment.getMapAsync(this);
 
         attractions.add(harryPotterShop);
         attractions.add(leadenhallMarket);
@@ -68,16 +84,83 @@ public class MainActivity extends FragmentActivity implements OnMapReadyCallback
             boolean success = googleMap.setMapStyle(MapStyleOptions.loadRawResourceStyle(this, R.raw.retro_map_style));
         } catch (Resources.NotFoundException e) {}
 
+        if (ActivityCompat.checkSelfPermission(MainActivity.this, Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
+            getCurrentLocation();
+        } else {
+            ActivityCompat.requestPermissions(MainActivity.this, new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, 44);
+        }
+
         googleMap.moveCamera(CameraUpdateFactory.newLatLng(new LatLng(51.5074, -0.1278)));
         googleMap.animateCamera(CameraUpdateFactory.zoomTo(12));
 
-//        BitmapDescriptor markerBitmapDescriptor = BitmapDescriptorFactory.fromResource(R.drawable.footprints_marker);
-
         for (Attraction attraction : attractions){
-//            googleMap.addMarker(new MarkerOptions().position(attraction.getPosition()).title(attraction.getName()).icon(markerBitmapDescriptor));
-            googleMap.addMarker(new MarkerOptions().position(attraction.getPosition()).title(attraction.getName()).icon(bitmapDescriptor(getApplicationContext(), R.drawable.footprints_marker)));
+            googleMap.addMarker(new MarkerOptions()
+                    .position(attraction.getPosition())
+                    .title(attraction.getName())
+                    .icon(bitmapDescriptor(getApplicationContext(), R.drawable.footprints_marker)));
         }
 
+        googleMap.setOnMarkerClickListener(new GoogleMap.OnMarkerClickListener() {
+            @RequiresApi(api = Build.VERSION_CODES.N)
+            @Override
+            public boolean onMarkerClick(Marker marker) {
+                String markerTitle = marker.getTitle();
+                Attraction currentAttraction = new Attraction();
+
+                for (Attraction attraction : attractions){
+                    if (attraction.getName().equals(markerTitle)) currentAttraction = attraction;
+                };
+
+                if (currentAttraction != null) {
+                    Intent intent = new Intent(MainActivity.this, AttractionInfoActivity.class);
+                    intent.putExtra("title", currentAttraction.getName());
+                    intent.putExtra("description", currentAttraction.getDescription());
+
+                    startActivity(intent);
+
+//                    FragmentManager fragmentManager = getSupportFragmentManager();
+//                    AttractionInfoFragment fragment = new AttractionInfoFragment(currentAttraction);
+//                    fragmentManager.beginTransaction().replace(R.id.main_container, fragment).commit();
+                }
+
+                return false;
+            }
+        });
+
+    }
+
+    private void getCurrentLocation() {
+        @SuppressLint("MissingPermission") Task<Location> task = client.getLastLocation();
+        task.addOnSuccessListener(new OnSuccessListener<Location>() {
+            @Override
+            public void onSuccess(Location location) {
+                if (location != null){
+                    supportMapFragment.getMapAsync(new OnMapReadyCallback() {
+                        @SuppressLint("MissingPermission")
+                        @Override
+                        public void onMapReady(GoogleMap googleMap) {
+                            googleMap.setMyLocationEnabled(true);
+
+//                            LatLng latLng = new LatLng(location.getLatitude(), location.getLongitude());
+//                            MarkerOptions options = new MarkerOptions()
+//                                    .position(latLng)
+//                                    .icon(BitmapDescriptorFactory
+//                                            .defaultMarker(BitmapDescriptorFactory.HUE_MAGENTA));
+//                            googleMap.addMarker(options);
+                        }
+                    });
+                }
+            }
+        });
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        if (requestCode == 44){
+            if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED){
+                getCurrentLocation();
+            }
+        }
     }
 
     private BitmapDescriptor bitmapDescriptor(Context context, int resourceId) {
