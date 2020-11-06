@@ -90,6 +90,7 @@ public class MainActivity extends FragmentActivity implements OnMapReadyCallback
             ActivityCompat.requestPermissions(MainActivity.this, new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, 44);
         }
 
+        googleMap.setInfoWindowAdapter(new CustomInfoWindowAdapter(MainActivity.this));
         googleMap.moveCamera(CameraUpdateFactory.newLatLng(new LatLng(51.5074, -0.1278)));
         googleMap.animateCamera(CameraUpdateFactory.zoomTo(12));
 
@@ -101,15 +102,32 @@ public class MainActivity extends FragmentActivity implements OnMapReadyCallback
         }
 
         googleMap.setOnMarkerClickListener(new GoogleMap.OnMarkerClickListener() {
-            @RequiresApi(api = Build.VERSION_CODES.N)
             @Override
             public boolean onMarkerClick(Marker marker) {
+                try {
+                    if (marker.isInfoWindowShown()){
+                        marker.hideInfoWindow();
+                    } else {
+                        marker.showInfoWindow();
+                    }
+                } catch (NullPointerException e){
+                    System.out.println(e.getMessage());
+                }
+
+                return false;
+            }
+        });
+
+
+        googleMap.setOnInfoWindowClickListener(new GoogleMap.OnInfoWindowClickListener() {
+            @Override
+            public void onInfoWindowClick(Marker marker) {
                 String markerTitle = marker.getTitle();
-                Attraction currentAttraction = new Attraction();
+                Attraction currentAttraction = null;
 
                 for (Attraction attraction : attractions){
                     if (attraction.getName().equals(markerTitle)) currentAttraction = attraction;
-                };
+                }
 
                 if (currentAttraction != null) {
                     Intent intent = new Intent(MainActivity.this, AttractionInfoActivity.class);
@@ -122,11 +140,36 @@ public class MainActivity extends FragmentActivity implements OnMapReadyCallback
 //                    AttractionInfoFragment fragment = new AttractionInfoFragment(currentAttraction);
 //                    fragmentManager.beginTransaction().replace(R.id.main_container, fragment).commit();
                 }
-
-                return false;
             }
         });
 
+
+//        googleMap.setOnMarkerClickListener(new GoogleMap.OnMarkerClickListener() {
+//            @RequiresApi(api = Build.VERSION_CODES.N)
+//            @Override
+//            public boolean onMarkerClick(Marker marker) {
+////                String markerTitle = marker.getTitle();
+////                Attraction currentAttraction = null;
+////
+////                for (Attraction attraction : attractions){
+////                    if (attraction.getName().equals(markerTitle)) currentAttraction = attraction;
+////                }
+////
+////                if (currentAttraction != null) {
+////                    Intent intent = new Intent(MainActivity.this, AttractionInfoActivity.class);
+////                    intent.putExtra("title", currentAttraction.getName());
+////                    intent.putExtra("description", currentAttraction.getDescription());
+////
+////                    startActivity(intent);
+////
+//////                    FragmentManager fragmentManager = getSupportFragmentManager();
+//////                    AttractionInfoFragment fragment = new AttractionInfoFragment(currentAttraction);
+//////                    fragmentManager.beginTransaction().replace(R.id.main_container, fragment).commit();
+////                }
+////
+//                return false;
+//            }
+//        });
     }
 
     private void getCurrentLocation() {

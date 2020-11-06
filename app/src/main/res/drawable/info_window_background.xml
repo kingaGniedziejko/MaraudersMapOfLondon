@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+
+<!--<layer-list xmlns:android="http://schemas.android.com/apk/res/android">-->
+<!--    <item>-->
+<!--        <shape xmlns:android="http://schemas.android.com/apk/res/android"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:layout_width="match_parent"-->
+<!--            android:layout_margin="10dp">-->
+
+<!--            <solid android:color="#FDFDFD"/>-->
+<!--            <corners android:radius="5dp"/>-->
+<!--            <stroke android:color="@color/brown" android:width="1dp"/>-->
+
+<!--            <padding-->
+<!--                android:left="10dp"-->
+<!--                android:top="10dp"-->
+<!--                android:right="10dp"-->
+<!--                android:bottom="10dp" />-->
+
+<!--        </shape>-->
+<!--    </item>-->
+<!--    <item>-->
+<!--        <shape xmlns:android="http://schemas.android.com/apk/res/android"-->
+<!--            android:layouta_width="40dp"-->
+<!--            android:layout_height="40dp">-->
+<!--            <group android:name="triableGroup">-->
+<!--                <path-->
+<!--                    android:name="triangle"-->
+<!--                    android:fillColor="#000000"-->
+<!--                    android:pathData="m 50,0 l 50,50 -100,0 z" />-->
+<!--            </group>-->
+<!--        </shape>-->
+<!--    </item>-->
+
+
+
+<!--</layer-list>-->
+
+
+
+<shape xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_height="wrap_content"
+    android:layout_width="match_parent"
+    android:layout_margin="10dp">
+
+    <solid android:color="#FDFDFD"/>
+    <corners android:radius="5dp"/>
+    <stroke android:color="@color/brown" android:width="1dp"/>
+
+    <padding
+        android:left="10dp"
+        android:top="10dp"
+        android:right="10dp"
+        android:bottom="10dp" />
+
+</shape>

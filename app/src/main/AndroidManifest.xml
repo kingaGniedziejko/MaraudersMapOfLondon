@@ -16,7 +16,7 @@
         <activity
             android:name=".AttractionInfoActivity"
             android:label="@string/title_activity_attraction_info"
-            android:theme="@style/Theme.MaraudersMapOfLondon.NoActionBar"></activity>
+            android:theme="@style/Theme.MaraudersMapOfLondon.NoActionBar" />
 
         <meta-data
             android:name="com.google.android.geo.API_KEY"
