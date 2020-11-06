@@ -11,7 +11,7 @@ public class Attraction{
     private String name;
     private LatLng position;
     private String description = "";
-    private ArrayList gallery = new ArrayList<>();
+    private int[] gallery = {};
     private String movieLink = "";
 
     public Attraction(String name, LatLng position){
@@ -24,6 +24,12 @@ public class Attraction{
         this.description = description;
     }
 
+    public Attraction(String name, LatLng position, String description, int[] gallery){
+        this(name, position, description);
+        this.gallery = gallery;
+    }
+
+
     public String getName() {
         return name;
     }
@@ -34,6 +40,10 @@ public class Attraction{
 
     public String getDescription() {
         return description;
+    }
+
+    public int[] getGallery() {
+        return gallery;
     }
 
     public void setDescription(String description) {

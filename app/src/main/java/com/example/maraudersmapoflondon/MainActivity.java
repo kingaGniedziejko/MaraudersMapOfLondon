@@ -43,16 +43,33 @@ public class MainActivity extends FragmentActivity implements OnMapReadyCallback
     FusedLocationProviderClient client;
 
     ArrayList<Attraction> attractions = new ArrayList<>();
-    Attraction harryPotterShop = new Attraction("The Harry Potter Shop at Platform 9 3/4", new LatLng(51.53218, -0.12392));
-    Attraction leadenhallMarket = new Attraction("18 Leadenhall Market", new LatLng(51.51281, -0.08387));
-    Attraction highCommissionOfAustralia = new Attraction("High Commission of Australia, London", new LatLng(51.51282, -0.11528), "Gringotts Wizarding Bank");
+    Attraction harryPotterShop = new Attraction(
+            "The Harry Potter Shop at Platform 9 3/4",
+            new LatLng(51.53218, -0.12392),
+            "",
+            new int[] {R.drawable.harry_potter_shop_1, R.drawable.harry_potter_shop_2, R.drawable.harry_potter_shop_3, R.drawable.harry_potter_shop_4, R.drawable.harry_potter_shop_5, R.drawable.harry_potter_shop_6});
+
+    Attraction leadenhallMarket = new Attraction(
+            "18 Leadenhall Market",
+            new LatLng(51.51281, -0.08387));
+
+    Attraction highCommissionOfAustralia = new Attraction(
+            "High Commission of Australia, London",
+            new LatLng(51.51282, -0.11528),
+            "Gringotts Wizarding Bank",
+            new int[] {R.drawable.high_commission_of_australia_1, R.drawable.high_commission_of_australia_2, R.drawable.high_commission_of_australia_3});
+
     Attraction millenniumBridge = new Attraction("Millennium Bridge", new LatLng(51.50953, -0.09852));
     Attraction piccadillyCircus = new Attraction("10 Piccadilly Circus", new LatLng(51.5101, -0.13466));
     Attraction stPancrasInternational = new Attraction("St Pancras International", new LatLng(51.53169, -0.1267));
     Attraction reptileHouse = new Attraction("Reptile House", new LatLng(51.5352, -0.15565));
     Attraction scotlandPlace = new Attraction("Scotland Place", new LatLng(51.50612, -0.12561), "Entrance to the Ministry of Magic");
     Attraction claremontSquare = new Attraction("Claremont Square", new LatLng(51.53122, -0.11034), "12 Grimmauld Place");
-    Attraction kingsCrossStationPlatform = new Attraction("King's Cross Station Platform 9 3/4", new LatLng(51.53273, -0.12398));
+    Attraction kingsCrossStationPlatform = new Attraction(
+            "King's Cross Station Platform 9 3/4",
+            new LatLng(51.53273, -0.12398),
+            "",
+            new int[] {R.drawable.kings_cross_station_platform_1});
 
 
     @Override
@@ -133,6 +150,7 @@ public class MainActivity extends FragmentActivity implements OnMapReadyCallback
                     Intent intent = new Intent(MainActivity.this, AttractionInfoActivity.class);
                     intent.putExtra("title", currentAttraction.getName());
                     intent.putExtra("description", currentAttraction.getDescription());
+                    intent.putExtra("gallery", currentAttraction.getGallery());
 
                     startActivity(intent);
 

@@ -13,6 +13,7 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.MaraudersMapOfLondon">
+        <activity android:name=".FullScreenActivity"></activity>
         <activity
             android:name=".AttractionInfoActivity"
             android:label="@string/title_activity_attraction_info"
