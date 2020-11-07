@@ -51,7 +51,9 @@ public class MainActivity extends FragmentActivity implements OnMapReadyCallback
 
     Attraction leadenhallMarket = new Attraction(
             "18 Leadenhall Market",
-            new LatLng(51.51281, -0.08387));
+            new LatLng(51.51281, -0.08387),
+            "",
+            new int[] {R.drawable.leadenhall_market_1, R.drawable.leadenhall_market_2, R.drawable.leadenhall_market_3, R.drawable.leadenhall_market_4, R.drawable.leadenhall_market_5, R.drawable.leadenhall_market_6});
 
     Attraction highCommissionOfAustralia = new Attraction(
             "High Commission of Australia, London",
@@ -59,17 +61,47 @@ public class MainActivity extends FragmentActivity implements OnMapReadyCallback
             "Gringotts Wizarding Bank",
             new int[] {R.drawable.high_commission_of_australia_1, R.drawable.high_commission_of_australia_2, R.drawable.high_commission_of_australia_3});
 
-    Attraction millenniumBridge = new Attraction("Millennium Bridge", new LatLng(51.50953, -0.09852));
-    Attraction piccadillyCircus = new Attraction("10 Piccadilly Circus", new LatLng(51.5101, -0.13466));
-    Attraction stPancrasInternational = new Attraction("St Pancras International", new LatLng(51.53169, -0.1267));
-    Attraction reptileHouse = new Attraction("Reptile House", new LatLng(51.5352, -0.15565));
-    Attraction scotlandPlace = new Attraction("Scotland Place", new LatLng(51.50612, -0.12561), "Entrance to the Ministry of Magic");
-    Attraction claremontSquare = new Attraction("Claremont Square", new LatLng(51.53122, -0.11034), "12 Grimmauld Place");
+    Attraction millenniumBridge = new Attraction(
+            "Millennium Bridge",
+            new LatLng(51.50953, -0.09852),
+            "",
+            new int[] {R.drawable.millennium_bridge_1, R.drawable.millennium_bridge_2, R.drawable.millennium_bridge_3});
+
+    Attraction piccadillyCircus = new Attraction(
+            "10 Piccadilly Circus",
+            new LatLng(51.5101, -0.13466),
+            "",
+            new int[] {R.drawable.piccadilly_circus_1, R.drawable.piccadilly_circus_2, R.drawable.piccadilly_circus_3});
+
+    Attraction stPancrasInternational = new Attraction(
+            "St Pancras International",
+            new LatLng(51.53169, -0.1267),
+            "",
+            new int[] {R.drawable.st_pancras_international_1, R.drawable.st_pancras_international_2, R.drawable.st_pancras_international_3});
+
+    Attraction reptileHouse = new Attraction(
+            "Reptile House",
+            new LatLng(51.5352, -0.15565),
+            "",
+            new int[] {R.drawable.reptile_house_1, R.drawable.reptile_house_2, R.drawable.reptile_house_3});
+
+    Attraction scotlandPlace = new Attraction(
+            "Scotland Place",
+            new LatLng(51.50612, -0.12561),
+            "Entrance to the Ministry of Magic",
+            new int[] {R.drawable.scotland_place_1, R.drawable.scotland_place_2, R.drawable.scotland_place_3});
+
+    Attraction claremontSquare = new Attraction(
+            "Claremont Square",
+            new LatLng(51.53122, -0.11034),
+            "12 Grimmauld Place",
+            new int[] {R.drawable.claremont_square_1, R.drawable.claremont_square_2, R.drawable.claremont_square_3});
+
     Attraction kingsCrossStationPlatform = new Attraction(
             "King's Cross Station Platform 9 3/4",
             new LatLng(51.53273, -0.12398),
             "",
-            new int[] {R.drawable.kings_cross_station_platform_1});
+            new int[] {R.drawable.kings_cross_station_platform_1, R.drawable.kings_cross_station_platform_2, R.drawable.kings_cross_station_platform_3});
 
 
     @Override
